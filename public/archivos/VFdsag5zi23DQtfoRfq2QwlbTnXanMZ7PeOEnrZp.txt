@@ -1,9 +1,0 @@
-log de ingresos
-log de estudiantes para profesores
-campo de celular
-crud de los cursos y materias 
-celulares de los profesores en los curos
-noticias eventos fotografias
-dasboard 
-proxima clase de zoom 
-password el ci y si no tiene del 123456
