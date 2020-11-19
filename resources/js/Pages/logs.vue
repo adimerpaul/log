@@ -65,7 +65,7 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                                     Guardar
                                 </label>
-                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" > Guardar</button>
+                                <button  :disabled="d" type="submit" class="btn btn-success btn-block" id="botonguardar" > Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -188,6 +188,7 @@ export default {
             datos:[],
             imagen:null,
             dataTables:null,
+            d:false,
         }
     },
     mounted() {
@@ -213,8 +214,7 @@ export default {
 
             this.dataTables.clear().draw();
             axios.get('/logs/create').then(res=>{
-                console.log(res.data);
-                return false;
+                // console.log(res.data);
                 this.datos=res.data;
                 let con=0;
 
@@ -248,6 +248,9 @@ export default {
           //   let form=new FormData();
             // data.append('titutlo',);
             // this.dato.archivo=this.file;
+            this.d=true;
+            $('#botonguardar').html(
+                "<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>");
             var data = new  FormData();
             data.append('archivo', this.imagen);
             data.append('titulo', this.dato.titulo);
@@ -265,7 +268,9 @@ export default {
                     text:"Correctamente",
                     type:"success",
                     timer:2000
-                })
+                });
+                this.d=false;
+                $('#botonguardar').html("Guardar");
                 this.dato={};
                 this.misdatos();
 

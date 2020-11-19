@@ -5173,7 +5173,8 @@ __webpack_require__.r(__webpack_exports__);
       dato: {},
       datos: [],
       imagen: null,
-      dataTables: null
+      dataTables: null,
+      d: false
     };
   },
   mounted: function mounted() {
@@ -5220,6 +5221,8 @@ __webpack_require__.r(__webpack_exports__);
       //   let form=new FormData();
       // data.append('titutlo',);
       // this.dato.archivo=this.file;
+      this.d = true;
+      $('#botonguardar').html("<span class='spinner-grow spinner-grow-sm' role='status' aria-hidden='true'></span>");
       var data = new FormData();
       data.append('archivo', this.imagen);
       data.append('titulo', this.dato.titulo); // if ()
@@ -5236,6 +5239,8 @@ __webpack_require__.r(__webpack_exports__);
           timer: 2000
         });
 
+        _this2.d = false;
+        $('#botonguardar').html("Guardar");
         _this2.dato = {};
 
         _this2.misdatos();
@@ -32633,9 +32638,12 @@ var render = function() {
                       _c(
                         "button",
                         {
-                          staticClass:
-                            "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded",
-                          attrs: { type: "submit" }
+                          staticClass: "btn btn-success btn-block",
+                          attrs: {
+                            disabled: _vm.d,
+                            type: "submit",
+                            id: "botonguardar"
+                          }
                         },
                         [_vm._v(" Guardar")]
                       )
@@ -53039,8 +53047,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laravel\inertia\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laravel\inertia\resources\css\app.css */"./resources/css/app.css");
+__webpack_require__(/*! C:\laravel\log\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laravel\log\resources\css\app.css */"./resources/css/app.css");
 
 
 /***/ })
