@@ -47,6 +47,8 @@ class LogController extends Controller
         }else{
             $path="";
         }
+        echo $path;
+        exit;
 
 //        if ($request->hasFile('avatar')) {
 //            // Si es así , almacenamos en la carpeta public/avatars

@@ -213,7 +213,8 @@ export default {
 
             this.dataTables.clear().draw();
             axios.get('/logs/create').then(res=>{
-                // console.log(res.data);
+                console.log(res.data);
+                return false;
                 this.datos=res.data;
                 let con=0;
 
