@@ -9,8 +9,8 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-<!--                    <welcome />-->
-                    <img src="img/logo.jpg" with="350" alt="">
+                    <welcome />
+<!--                    <img src="img/logo.jpg" with="350" alt="">-->
                 </div>
             </div>
         </div>

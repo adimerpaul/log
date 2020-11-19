@@ -29,7 +29,7 @@ class LogController extends Controller
      */
     public function create()
     {
-        //
+        return Log::with('user')->orderBy('id','desc')->get();
     }
 
     /**
@@ -40,15 +40,36 @@ class LogController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->hasFile('archivo')){
+            $path=$request->file('archivo')->store('archivos');
+//        $path = $request->file('archivo')->store('avatars');
+
+        }else{
+            $path="";
+        }
+
+//        if ($request->hasFile('avatar')) {
+//            // Si es así , almacenamos en la carpeta public/avatars
+//            // esta estará dentro de public/defaults/
+//            $url = $request->avatar->store('users/avatar');
+////            $userAvatarUpdate = User::find(auth()->id());
+//            /** Áctualización y
+//            return JSON*/
+//        }
+//        return "Noo Llego una imagen";
+//
+//
+//        exit;
         $d=new Log();
         $d->titulo=$request->titulo;
         $d->descripcion=$request->descripcion;
+        $d->archivo=$path;
         $d->user_id=Auth::user()->id;
 //        $d->titulo=$request->titulo;
 //        $d->titulo=$request->titulo;
         $d->save();
-//        return  $d;
-        return redirect()->back();
+        return  $d;
+//        return redirect()->back();
     }
 
     /**

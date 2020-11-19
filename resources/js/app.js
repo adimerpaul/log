@@ -1,6 +1,10 @@
 require('./bootstrap');
 
 import Vue from 'vue';
+Vue.use(require('vue-moment'));
+import VueSimpleAlert from "vue-simple-alert";
+
+Vue.use(VueSimpleAlert);
 
 import { InertiaApp } from '@inertiajs/inertia-vue';
 import { InertiaForm } from 'laravel-jetstream';

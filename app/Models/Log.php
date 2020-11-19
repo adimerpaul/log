@@ -13,6 +13,6 @@ class Log extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
-        return Inertia::render('logs', ['data' => $data]);
+//        return Inertia::render('logs', ['data' => $data]);
     }
 }

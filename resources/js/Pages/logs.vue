@@ -51,7 +51,7 @@
                             </div>
                             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="descripcion">
-                                    Descipcion
+                                    Descripcion
                                 </label>
                                 <input v-model="dato.descripcion" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="descripcion" type="text" placeholder="Descripcion">
                             </div>
@@ -59,38 +59,62 @@
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                                     Archivo
                                 </label>
-                                <input  class="text-xs appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="file" required>
+                                <input  class="text-xs appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="file" @change="getImage" required>
                             </div>
                             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                                     Guardar
                                 </label>
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" > Guardar</button>
-
                             </div>
                         </div>
                     </form>
-                    <table class="table-fixed w-full">
+                    <div class="table-responsive">
+                    <table id="example" class="display" style="width:100%">
                         <thead>
-                        <tr class="bg-gray-100">
-                            <th class="px-4 py-2 w-20">No.</th>
-                            <th class="px-4 py-2">Title</th>
-                            <th class="px-4 py-2">Body</th>
-                            <th class="px-4 py-2">Action</th>
+                        <tr>
+                        <th>#</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Usuario</th>
+                        <th>Fecha Hora</th>
+                        <th>Archivo</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="row in data">
-                            <td class="border px-4 py-2">{{ row.id }} asdas</td>
-                            <td class="border px-4 py-2">{{ row.title }}</td>
-                            <td class="border px-4 py-2">{{ row.body }}</td>
-                            <td class="border px-4 py-2">
-                                <button @click="edit(row)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                                <button @click="deleteRow(row)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
+                    </div>
+<!--                    <table class=" w-full">-->
+<!--                        <thead>-->
+<!--                        <tr class="bg-gray-100">-->
+<!--                            <th class="px-2 py-2">#</th>-->
+<!--                            <th class="px-2 py-2">Titulo</th>-->
+<!--                            <th class="px-2 py-2">Descripcion</th>-->
+<!--                            <th class="px-2 py-2">Usuario</th>-->
+<!--                            <th class="px-2 py-2">Fecha Hora</th>-->
+<!--                            <th class="px-2 py-2">Archivo</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr v-for="(i,index) in datos" :key="index">-->
+<!--                            <td class="border px-2 py-1">{{ index+1 }}</td>-->
+<!--                            <td class="border px-2 py-1">{{ i.titulo }}</td>-->
+<!--                            <td class="border px-2 py-1">{{ i.descripcion }}</td>-->
+<!--                            <td class="border px-2 py-1">{{ i.user.name }}</td>-->
+<!--                            <td class="border px-2 py-1">{{ i.created_at | moment("YYYY/MM/DD hh:mm:ss") }}</td>-->
+<!--                            <td class="border px-2 py-1">-->
+<!--                                <a v-if="i.archivo!=''" :href="i.archivo" target="_blank">Descargar Archivo</a>-->
+<!--                            </td>-->
+<!--&lt;!&ndash;                            <td class="border px-2 py-1">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <button @click="edit(row)" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">Edit</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <button @click="deleteRow(row)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </td>&ndash;&gt;-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+
 <!--                    <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400" v-if="isOpen">-->
 <!--                        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">-->
 
@@ -161,31 +185,99 @@ export default {
                 body: null,
             },
             dato:{},
+            datos:[],
+            imagen:null,
+            dataTables:null,
         }
     },
     mounted() {
       //   console.log('aa');
       // console.log(this.data);
+
+
+        this.dataTables=$('#example').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy',
+                'csv',
+                // 'excel',
+                'pdf',
+                'print'
+            ]
+        } );
+        this.misdatos();
     },
     methods: {
+        misdatos(){
+
+
+            this.dataTables.clear().draw();
+            axios.get('/logs/create').then(res=>{
+                // console.log(res.data);
+                this.datos=res.data;
+                let con=0;
+
+                this.datos.forEach(r=>{
+                    // console.log(r);
+                    con++;
+
+                    this.dataTables.row.add([
+                        con,
+                        r.titulo,
+                        r.descripcion,
+                        r.user.name,
+                        moment(r.created_at).format('YYYY-MM-DD hh:mm:ss'),
+                        "<a href='"+r.archivo+"' target='__black'>Archivo</a>",
+                    ]).draw(false);
+                })
+            });
+        },
+        getImage(event){
+            //Asignamos la imagen a  nuestra data
+            this.imagen = event.target.files[0];
+            // console.log(this.imagen);
+        },
         guardar(){
           // console.log('aa');
           //   this.$inertia.post('/posts', data)
           //   this.reset();
           //   this.closeModal();
           //   this.editMode = false;
-            this.$inertia.post('/logs', this.dato).then(res=>{
-                // console.log(res);
+          //   this.data=[];
+          //   let form=new FormData();
+            // data.append('titutlo',);
+            // this.dato.archivo=this.file;
+            var data = new  FormData();
+            data.append('archivo', this.imagen);
+            data.append('titulo', this.dato.titulo);
+            // if ()
+            if (this.dato.descripcion!=undefined)
+                data.append('descripcion', this.dato.descripcion);
+            else
+                data.append('descripcion','');
+            axios.post('/logs', data).then(res=>{
+                // console.log(res.data);
+                // this.data=(res.data);
+                // this.$alert("Guardado correctamente");
+                this.$fire({
+                    title:"Guardado",
+                    text:"Correctamente",
+                    type:"success",
+                    timer:2000
+                })
+                this.dato={};
+                this.misdatos();
+
             });
         },
-        openModal: function () {
-            this.isOpen = true;
-        },
-        closeModal: function () {
-            this.isOpen = false;
-            this.reset();
-            this.editMode=false;
-        },
+        // openModal: function () {
+        //     this.isOpen = true;
+        // },
+        // closeModal: function () {
+        //     this.isOpen = false;
+        //     this.reset();
+        //     this.editMode=false;
+        // },
         reset: function () {
             this.form = {
                 title: null,
